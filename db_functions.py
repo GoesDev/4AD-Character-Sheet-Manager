@@ -66,10 +66,16 @@ def save_character(new_character):
     con.commit()
     con.close()
 
+    print(f"Saving {new_character[0]}")
+
 
 def update_character(att_character):
     """
-    FAZER DOCSTRING
+    Receives a tuple with the character's new information and
+    updates it in the database using the name as a reference.
+
+    Args:
+        att_character (tuple): character new stats
     """
 
     con = connect_database()
@@ -77,17 +83,64 @@ def update_character(att_character):
 
     sql_update_character = """
         UPDATE character
-        SET level = ?
-            life = ?
-            attack = ?
-            defense = ?
-            gold = ?
-            special_abilities = ?
-            clues = ?
+        SET level = ?,
+            life = ?,
+            attack = ?,
+            defense = ?,
+            gold = ?,
+            special_abilities = ?,
+            clues = ?,
             equipament = ?
         WHERE name = ?
     """
 
     cur.execute(sql_update_character, att_character)
+    con.commit()
+    con.close()
+
+
+def select_character(character_name):
+    """
+    Select a character from the Database and returns a dict with its stats
+
+    Args:
+        character_name (string): name of an existing character in the database
+
+    Return:
+        character_sheet (tuple): character stats
+    """
+
+    conn = connect_database()
+    cur = conn.cursor()
+
+    sql_select_character = """
+        SELECT *
+        FROM character
+        WHERE name = ?
+    """
+
+    cur.execute(sql_select_character, (character_name,))
+    character_sheet = cur.fetchone()
+    conn.close()
+    return character_sheet
+
+
+def delete_character(character_name):
+    """
+    Select a character from the Database and delete its
+
+    Args:
+        character_name (string): name of an existing character in the database
+    """
+
+    con = connect_database()
+    cur = con.cursor()
+
+    sql_delete_character = """
+        DELETE FROM character
+        WHERE name = ?
+    """
+
+    cur.execute(sql_delete_character, (character_name,))
     con.commit()
     con.close()
