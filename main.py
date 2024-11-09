@@ -3,7 +3,9 @@ from tkinter import ttk
 from Character import Character
 from db_functions import delete_character
 
-
+# all_class = ['Barbarian', 'Cleric', 'Dwarf',
+#              'Elf', 'Halfling', 'Thief',
+#              'Warrior', 'Wizard']
 root = tk.Tk()
 root.title('4AD - Character Sheet Manager')
 root.option_add("*Font", "Helvetica 10")
@@ -86,6 +88,33 @@ def window_delete_character():
                command=window_home).grid(column=99, row=99)
 
 
+def window_select_character():
+    clear_widgets()
+
+    ttk.Label(frm, text="Select Characters").grid(column=1, row=0)
+
+    ttk.Label(frm, text='#1 Name:').grid(column=0, row=1)
+    ttk.Label(frm, text='#2 Name:').grid(column=0, row=2)
+    ttk.Label(frm, text='#3 Name:').grid(column=0, row=3)
+    ttk.Label(frm, text='#4 Name:').grid(column=0, row=4)
+    global char_one, char_two, char_three, char_four
+    char_one = ttk.Entry(frm)
+    char_one.grid(column=1, row=1)
+    char_two = ttk.Entry(frm)
+    char_two.grid(column=1, row=2)
+    char_three = ttk.Entry(frm)
+    char_three.grid(column=1, row=3)
+    char_four = ttk.Entry(frm)
+    char_four.grid(column=1, row=4)
+
+    ttk.Button(frm, text='Select Character',
+               command=select_existing_character).grid(column=1,
+                                                       row=99, pady=20)
+
+    ttk.Button(frm, text="Home",
+               command=window_home).grid(column=99, row=99)
+
+
 def window_home():
 
     clear_widgets()
@@ -93,7 +122,9 @@ def window_home():
     ttk.Button(frm, text="Create Character",
                command=window_new_character).grid(column=0, row=0)
     ttk.Button(frm, text="Delete Character",
-               command=window_delete_character).grid(column=0, row=1)
+               command=window_delete_character).grid(column=0, row=2)
+    ttk.Button(frm, text="Select Character",
+               command=window_select_character).grid(column=0, row=1)
 
 
 def save_character():
@@ -104,6 +135,10 @@ def save_character():
 def delete_old_character():
     character = old_character.get()
     delete_character(character)
+
+
+def select_existing_character():
+    print(char_one.get(), char_two, char_three, char_four)
 
 
 window_home()
