@@ -1,14 +1,15 @@
 import tkinter as tk
 from tkinter import ttk
 from Character import Character
+from db_functions import delete_character
 
 
 root = tk.Tk()
-root.title('Gestor de Combate OD2')
-root.option_add("*Font", "Helvetica 20")
+root.title('4AD - Character Sheet Manager')
+root.option_add("*Font", "Helvetica 10")
 
 style = ttk.Style()
-style.configure("TButton", font=("Helvetica", 24, "bold"))
+style.configure("TButton", font=("Helvetica", 11, "bold"))
 
 frm = ttk.Frame(root, padding=10)
 frm.grid()
@@ -20,6 +21,8 @@ def clear_widgets():
 
 
 def window_new_character():
+
+    clear_widgets()
 
     ttk.Label(frm, text="New Character").grid(
         column=1, row=0, columnspan=4)
@@ -61,14 +64,47 @@ def window_new_character():
     new_character['gold'] = ttk.Entry(frm)
     new_character['gold'].grid(column=4, row=8)
 
+    ttk.Button(frm, text="Save Character",
+               command=save_character).grid(column=1, row=9)
     ttk.Button(frm, text="Home",
-               command=show_character).grid(column=1, row=9)
+               command=window_home).grid(column=99, row=99)
 
 
-def show_character():
-    hofio = Character(new_character)
-    hofio.save_new_character()
+def window_delete_character():
+
+    clear_widgets()
+    ttk.Label(frm, text="Delete Character").grid(column=1, row=0)
+
+    ttk.Label(frm, text='Character Name:').grid(column=0, row=1)
+    global old_character
+    old_character = ttk.Entry(frm)
+    old_character.grid(column=1, row=1)
+
+    ttk.Button(frm, text='Delete Character',
+               command=delete_old_character).grid(column=1, row=2, pady=20)
+    ttk.Button(frm, text="Home",
+               command=window_home).grid(column=99, row=99)
 
 
-window_new_character()
+def window_home():
+
+    clear_widgets()
+
+    ttk.Button(frm, text="Create Character",
+               command=window_new_character).grid(column=0, row=0)
+    ttk.Button(frm, text="Delete Character",
+               command=window_delete_character).grid(column=0, row=1)
+
+
+def save_character():
+    character = Character(new_character)
+    character.save_new_character()
+
+
+def delete_old_character():
+    character = old_character.get()
+    delete_character(character)
+
+
+window_home()
 root.mainloop()
