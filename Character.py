@@ -1,4 +1,5 @@
 from db_functions import save_character, update_character
+import tkinter as tk
 
 
 class Character:
@@ -17,10 +18,12 @@ class Character:
         self.attack = character["attack"].get()
         self.defense = character["defense"].get()
         self.gold = character["gold"].get()
-        self.special_abilities = character["special_abilities"].get()
+        self.special_abilities = character[
+            "special_abilities"].get("1.0", tk.END).strip()
         self.special_abilities_uses = 0
         self.clues = character["clues"].get()
-        self.equipament = character["equipament"].get()
+        self.equipament = character[
+            "equipament"].get("1.0", tk.END).strip()
 
     def save_new_character(self):
         """
