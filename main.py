@@ -159,6 +159,10 @@ def window_show_party():
 
     ttk.Button(frm, text='Select Characters', command=atualizar_entry).grid(
         column=99, row=99)
+    ttk.Button(frm, text="Home",
+               command=window_home).grid(column=99, row=100)
+    ttk.Button(frm, text="Quit",
+               command=root.destroy).grid(column=99, row=101)
 
 
 def window_home():
