@@ -101,7 +101,7 @@ def update_character(att_character):
 
 def select_character(character_name):
     """
-    Select a character from the Database and returns a dict with its stats
+    Select a character from the Database and returns a tuple with its stats
 
     Args:
         character_name (string): name of an existing character in the database

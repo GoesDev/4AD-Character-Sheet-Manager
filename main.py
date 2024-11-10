@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 from Character import Character
-from db_functions import delete_character
+from db_functions import delete_character, select_character
 
 all_class = ['Barbarian', 'Cleric', 'Dwarf',
              'Elf', 'Halfling', 'Thief',
@@ -13,6 +13,7 @@ root.option_add("*Font", "Helvetica 10")
 style = ttk.Style()
 style.configure("TButton", font=("Helvetica", 11, "bold"))
 
+global frm
 frm = ttk.Frame(root, padding=10)
 frm.grid()
 
@@ -22,22 +23,32 @@ def clear_widgets():
         widget.destroy()
 
 
+def make_labels(ycol, xrow):
+    labels_texts = [
+        ("Name:", 0, 2),
+        ("Level:", 2, 2),
+        ("Class:", 0, 3),
+        ("Life:", 2, 3),
+        ("Attack Roll:", 0, 4),
+        ("Defense Roll:", 2, 4),
+        ("Abilities:", 0, 5),
+        ("Equipament:", 0, 7),
+        ("Clues:", 0, 8),
+        ("Gold:", 2, 8)
+    ]
+
+    for text, col, row in labels_texts:
+        ttk.Label(frm, text=text).grid(
+            column=col + ycol, row=row + xrow, sticky='E')
+
+
 def window_new_character():
 
     clear_widgets()
 
     ttk.Label(frm, text="New Character").grid(
         column=1, row=0, columnspan=4)
-    ttk.Label(frm, text="Name:").grid(column=0, row=2, sticky='E')
-    ttk.Label(frm, text="Level:").grid(column=2, row=2, sticky='E')
-    ttk.Label(frm, text="Class:").grid(column=0, row=3, sticky='E')
-    ttk.Label(frm, text="Life:").grid(column=2, row=3, sticky='E')
-    ttk.Label(frm, text="Attack Roll:").grid(column=0, row=4, sticky='E')
-    ttk.Label(frm, text="Defense Roll:").grid(column=2, row=4, sticky='E')
-    ttk.Label(frm, text="Abilities:").grid(column=0, row=5, sticky='E')
-    ttk.Label(frm, text="Equipament:").grid(column=0, row=7, sticky='E')
-    ttk.Label(frm, text="Clues:").grid(column=0, row=8, sticky='E')
-    ttk.Label(frm, text="Gold:").grid(column=2, row=8, sticky='E')
+    make_labels(0, 0)
 
     global new_character
     new_character = {}
@@ -86,31 +97,68 @@ def window_delete_character():
                command=window_home).grid(column=99, row=99)
 
 
-def window_select_character():
+def window_show_party():
     clear_widgets()
+    ttk.Label(frm, text="Party").grid(
+        column=1, row=0, columnspan=4)
+    make_labels(0, 0)
 
-    ttk.Label(frm, text="Select Characters").grid(column=1, row=0)
+    global test_dict, char_name, char_class, char_level, char_life
+    global char_gold, char_attack, char_defense, char_equipament, char_clues
+    global char_special_abilities, char_one
 
-    ttk.Label(frm, text='#1 Name:').grid(column=0, row=1)
-    ttk.Label(frm, text='#2 Name:').grid(column=0, row=2)
-    ttk.Label(frm, text='#3 Name:').grid(column=0, row=3)
-    ttk.Label(frm, text='#4 Name:').grid(column=0, row=4)
-    global char_one, char_two, char_three, char_four
+    char_name = tk.StringVar()
+    char_class = tk.StringVar()
+    char_level = tk.StringVar()
+    char_life = tk.StringVar()
+    char_attack = tk.StringVar()
+    char_defense = tk.StringVar()
+    char_gold = tk.StringVar()
+    char_special_abilities = tk.StringVar()
+    char_clues = tk.StringVar()
+    char_equipament = tk.StringVar()
+
+    ttk.Label(frm, text="#1 Character").grid(column=0, row=98)
+    ttk.Label(frm, text="#2 Character").grid(column=2, row=98)
+    ttk.Label(frm, text="#3 Character").grid(column=0, row=99)
+    ttk.Label(frm, text="#4 Character").grid(column=2, row=99)
+
+    test_dict = {}
     char_one = ttk.Entry(frm)
-    char_one.grid(column=1, row=1)
+    char_one.grid(column=1, row=98)
     char_two = ttk.Entry(frm)
-    char_two.grid(column=1, row=2)
+    char_two.grid(column=3, row=98)
     char_three = ttk.Entry(frm)
-    char_three.grid(column=1, row=3)
+    char_three.grid(column=1, row=99)
     char_four = ttk.Entry(frm)
-    char_four.grid(column=1, row=4)
+    char_four.grid(column=3, row=99)
 
-    ttk.Button(frm, text='Select Character',
-               command=select_existing_character).grid(column=1,
-                                                       row=99, pady=20)
+    test_dict['name'] = ttk.Entry(frm, textvariable=char_name)
+    test_dict['name'].grid(column=1, row=2, sticky='W')
+    test_dict['level'] = ttk.Entry(frm, textvariable=char_level)
+    test_dict['level'].grid(column=3, row=2, sticky='W')
+    test_dict['class'] = ttk.Combobox(
+        frm, textvariable=char_class, values=all_class)
+    test_dict['class'].grid(column=1, row=3, sticky='W')
+    test_dict['life'] = ttk.Entry(frm, textvariable=char_life)
+    test_dict['life'].grid(column=3, row=3, sticky='W')
+    test_dict['attack'] = ttk.Entry(frm, textvariable=char_attack)
+    test_dict['attack'].grid(column=1, row=4, sticky='W')
+    test_dict['defense'] = ttk.Entry(frm, textvariable=char_defense)
+    test_dict['defense'].grid(column=3, row=4, sticky='W')
+    test_dict['special_abilities'] = tk.Text(frm, width=55, height=3)
+    test_dict['special_abilities'].grid(
+        column=1, row=5, sticky='W', columnspan=3)
+    test_dict['equipament'] = tk.Text(frm, width=55, height=3)
+    test_dict['equipament'].grid(
+        column=1, row=7, sticky='W', columnspan=3)
+    test_dict['clues'] = ttk.Entry(frm, textvariable=char_clues)
+    test_dict['clues'].grid(column=1, row=8, sticky='W')
+    test_dict['gold'] = ttk.Entry(frm, textvariable=char_gold)
+    test_dict['gold'].grid(column=3, row=8, sticky='W')
 
-    ttk.Button(frm, text="Home",
-               command=window_home).grid(column=99, row=99)
+    ttk.Button(frm, text='Select Characters', command=atualizar_entry).grid(
+        column=99, row=99)
 
 
 def window_home():
@@ -122,12 +170,29 @@ def window_home():
     ttk.Button(frm, text="Delete Character",
                command=window_delete_character).grid(column=0, row=2)
     ttk.Button(frm, text="Select Character",
-               command=window_select_character).grid(column=0, row=1)
+               command=window_show_party).grid(column=0, row=1)
+    ttk.Button(frm, text="Quit",
+               command=root.destroy).grid(column=0, row=99)
 
 
 def save_character():
-    character = Character(new_character)
-    character.save_new_character()
+    definitive_character = {}
+
+    definitive_character['name'] = new_character["name"].get()
+    definitive_character['class'] = new_character["class"].get()
+    definitive_character['level'] = new_character["level"].get()
+    definitive_character['life'] = new_character["life"].get()
+    definitive_character['attack'] = new_character["attack"].get()
+    definitive_character['defense'] = new_character["defense"].get()
+    definitive_character['gold'] = new_character["gold"].get()
+    definitive_character['special_abilities'] = new_character[
+        "special_abilities"].get("1.0", tk.END).strip()
+    definitive_character['clues'] = new_character["clues"].get()
+    definitive_character['equipament'] = new_character[
+        "equipament"].get("1.0", tk.END).strip()
+
+    my_character = Character(definitive_character)
+    my_character.save_new_character()
 
 
 def delete_old_character():
@@ -135,8 +200,21 @@ def delete_old_character():
     delete_character(character)
 
 
-def select_existing_character():
-    print(char_one.get(), char_two, char_three, char_four)
+def atualizar_entry():
+
+    character = select_character(char_one.get().title())
+    char_name.set(character[0])
+    char_class.set(character[1])
+    char_level.set(character[2])
+    char_life.set(character[3])
+    char_attack.set(character[4])
+    char_defense.set(character[5])
+    char_gold.set(character[6])
+    test_dict['special_abilities'].delete("1.0", tk.END)
+    test_dict['special_abilities'].insert(tk.END, character[7])
+    char_clues.set(character[8])
+    test_dict['equipament'].delete("1.0", tk.END)
+    test_dict['equipament'].insert(tk.END, character[9])
 
 
 window_home()
