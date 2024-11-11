@@ -42,6 +42,46 @@ def make_labels(ycol, xrow):
             column=col + ycol, row=row + xrow, sticky='E')
 
 
+def make_entries(ycol, xrow, character_dict, entries_dict_var):
+    entries_items = [
+        ('name', 1, 2, entries_dict_var[0]),
+        ('level', 3, 2, entries_dict_var[2]),
+        ('life', 3, 3, entries_dict_var[3]),
+        ('attack', 1, 4, entries_dict_var[4]),
+        ('defense', 3, 4, entries_dict_var[5]),
+        ('clues', 1, 8, entries_dict_var[8]),
+        ('gold', 3, 8, entries_dict_var[9])
+    ]
+
+    for key, col, row, var_string in entries_items:
+        character_dict[key] = ttk.Entry(frm, textvariable=var_string)
+        character_dict[key].grid(column=col + ycol, row=row + xrow, stick='W')
+
+
+def make_combobox(ycol, xrow, character_dict, entries_dict_var):
+    combo_items = [
+        ('class', 1, 3, entries_dict_var[1])
+    ]
+    for key, col, row, var_string in combo_items:
+        character_dict[key] = ttk.Combobox(frm,
+                                           textvariable=var_string,
+                                           values=all_class)
+        character_dict[key].grid(column=col + ycol,
+                                 row=row + xrow, sticky='W')
+
+
+def make_texts(ycol, xrow, character_dict):
+    text_items = [
+        ('special_abilities', 1, 5),
+        ('equipament', 1, 7)
+    ]
+
+    for key, col, row in text_items:
+        character_dict[key] = tk.Text(frm, width=55, height=3)
+        character_dict[key].grid(column=col+ycol, sticky='W',
+                                 row=row+xrow, columnspan=3)
+
+
 def window_new_character():
 
     clear_widgets()
@@ -118,6 +158,19 @@ def window_show_party():
     char_clues = tk.StringVar()
     char_equipament = tk.StringVar()
 
+    entries_dict_var = [
+        char_name,
+        char_class,
+        char_level,
+        char_life,
+        char_attack,
+        char_defense,
+        char_special_abilities,
+        char_equipament,
+        char_clues,
+        char_gold
+    ]
+
     ttk.Label(frm, text="#1 Character").grid(column=0, row=98)
     ttk.Label(frm, text="#2 Character").grid(column=2, row=98)
     ttk.Label(frm, text="#3 Character").grid(column=0, row=99)
@@ -133,29 +186,9 @@ def window_show_party():
     char_four = ttk.Entry(frm)
     char_four.grid(column=3, row=99)
 
-    test_dict['name'] = ttk.Entry(frm, textvariable=char_name)
-    test_dict['name'].grid(column=1, row=2, sticky='W')
-    test_dict['level'] = ttk.Entry(frm, textvariable=char_level)
-    test_dict['level'].grid(column=3, row=2, sticky='W')
-    test_dict['class'] = ttk.Combobox(
-        frm, textvariable=char_class, values=all_class)
-    test_dict['class'].grid(column=1, row=3, sticky='W')
-    test_dict['life'] = ttk.Entry(frm, textvariable=char_life)
-    test_dict['life'].grid(column=3, row=3, sticky='W')
-    test_dict['attack'] = ttk.Entry(frm, textvariable=char_attack)
-    test_dict['attack'].grid(column=1, row=4, sticky='W')
-    test_dict['defense'] = ttk.Entry(frm, textvariable=char_defense)
-    test_dict['defense'].grid(column=3, row=4, sticky='W')
-    test_dict['special_abilities'] = tk.Text(frm, width=55, height=3)
-    test_dict['special_abilities'].grid(
-        column=1, row=5, sticky='W', columnspan=3)
-    test_dict['equipament'] = tk.Text(frm, width=55, height=3)
-    test_dict['equipament'].grid(
-        column=1, row=7, sticky='W', columnspan=3)
-    test_dict['clues'] = ttk.Entry(frm, textvariable=char_clues)
-    test_dict['clues'].grid(column=1, row=8, sticky='W')
-    test_dict['gold'] = ttk.Entry(frm, textvariable=char_gold)
-    test_dict['gold'].grid(column=3, row=8, sticky='W')
+    make_entries(0, 0, test_dict, entries_dict_var)
+    make_combobox(0, 0, test_dict, entries_dict_var)
+    make_texts(0, 0, test_dict)
 
     ttk.Button(frm, text='Select Characters', command=atualizar_entry).grid(
         column=99, row=99)
