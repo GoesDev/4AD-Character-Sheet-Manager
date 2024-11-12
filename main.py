@@ -108,30 +108,13 @@ def window_new_character():
         column=1, row=0, columnspan=4)
     make_labels(0, 0)
 
-    global new_character
+    global new_character, new_character_string_var
     new_character = {}
-    new_character['name'] = ttk.Entry(frm)
-    new_character['name'].grid(column=1, row=2, sticky='W')
-    new_character['level'] = ttk.Entry(frm)
-    new_character['level'].grid(column=3, row=2, sticky='W')
-    new_character['class'] = ttk.Combobox(frm, values=all_class)
-    new_character['class'].grid(column=1, row=3, sticky='W')
-    new_character['life'] = ttk.Entry(frm)
-    new_character['life'].grid(column=3, row=3, sticky='W')
-    new_character['attack'] = ttk.Entry(frm)
-    new_character['attack'].grid(column=1, row=4, sticky='W')
-    new_character['defense'] = ttk.Entry(frm)
-    new_character['defense'].grid(column=3, row=4, sticky='W')
-    new_character['special_abilities'] = tk.Text(frm, width=55, height=3)
-    new_character['special_abilities'].grid(
-        column=1, row=5, sticky='W', columnspan=3)
-    new_character['equipament'] = tk.Text(frm, width=55, height=3)
-    new_character['equipament'].grid(
-        column=1, row=7, sticky='W', columnspan=3)
-    new_character['clues'] = ttk.Entry(frm)
-    new_character['clues'].grid(column=1, row=8, sticky='W')
-    new_character['gold'] = ttk.Entry(frm)
-    new_character['gold'].grid(column=3, row=8, sticky='W')
+    new_character_string_var = make_dict_string_var()
+
+    make_entries(0, 0, new_character, new_character_string_var)
+    make_texts(0, 0, new_character)
+    make_combobox(0, 0, new_character, new_character_string_var)
 
     ttk.Button(frm, text="Save Character",
                command=prep_save_character).grid(column=1, row=9, pady=10)
@@ -237,7 +220,7 @@ def window_home():
 def prep_save_character():
     new_character_infos = []
 
-    new_character_infos.append(new_character["name"].get())
+    new_character_infos.append(new_character["name"].get().title())
     new_character_infos.append(new_character["class"].get())
     new_character_infos.append(new_character["level"].get())
     new_character_infos.append(new_character["life"].get())
@@ -254,7 +237,7 @@ def prep_save_character():
 
 
 def delete_old_character():
-    character = old_character.get()
+    character = old_character.get().title()
     delete_character(character)
 
 
