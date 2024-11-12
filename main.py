@@ -22,11 +22,20 @@ frm.grid()
 
 
 def clear_widgets():
+    """
+    Function that clears widgets on the screen.
+    """
     for widget in frm.winfo_children():
         widget.destroy()
 
 
 def make_labels(ycol, xrow):
+    """
+    Function that creates the Labels on the screen
+
+    Args:
+        ycol, xrow (int) = Y, X reference
+    """
     labels_texts = [
         ("Name:", 0, 2),
         ("Level:", 2, 2),
@@ -46,6 +55,19 @@ def make_labels(ycol, xrow):
 
 
 def make_entries(ycol, xrow, character_dict, character_dict_string_var):
+    """
+    Function that creates the Entries on the screen.
+
+    Args:
+        ycol, xrow (int) = Y, X reference
+
+        character_dict (int) = dict that will receive
+        the references of the entries
+
+        character_dict_string_var (int) = dict with the global ttk.StringsVar,
+        if it has data, it will be shown on the screen.
+        Otherwise, the entry will be empty.
+    """
     entries_items = [
         ('name', 1, 2, character_dict_string_var["name"]),
         ('level', 3, 2, character_dict_string_var["level"]),
@@ -62,6 +84,19 @@ def make_entries(ycol, xrow, character_dict, character_dict_string_var):
 
 
 def make_combobox(ycol, xrow, character_dict, character_dict_string_var):
+    """
+    Function that creates the Combobox on the screen.
+
+    Args:
+        ycol, xrow (int) = Y, X reference
+
+        character_dict (dict) = dict that will receive
+        the references of the combobox
+
+        character_dict_string_var (dict) = dict with the global ttk.StringsVar,
+        if it has data, it will be shown on the screen.
+        Otherwise, the entry will be empty.
+    """
     combo_items = [
         ('class', 1, 3, character_dict_string_var['class'])
     ]
@@ -74,6 +109,15 @@ def make_combobox(ycol, xrow, character_dict, character_dict_string_var):
 
 
 def make_texts(ycol, xrow, character_dict):
+    """
+    Function that creates the Texts on the screen.
+
+    Args:
+        ycol, xrow (int) = Y, X reference
+
+        character_dict (dic)= dict that will
+        receive the references of the combobox
+    """
     text_items = [
         ('special_abilities', 1, 5),
         ('equipament', 1, 7)
@@ -86,6 +130,9 @@ def make_texts(ycol, xrow, character_dict):
 
 
 def make_dict_string_var():
+    """
+    Function that make the StringVar dict and return its.
+    """
     return {
         "name": tk.StringVar(),
         "class": tk.StringVar(),
@@ -101,6 +148,9 @@ def make_dict_string_var():
 
 
 def window_new_character():
+    """
+    function that creates a new screen for creating a new character.
+    """
 
     clear_widgets()
 
@@ -123,7 +173,9 @@ def window_new_character():
 
 
 def window_delete_character():
-
+    """
+    function that creates a new screen for delete a new character.
+    """
     clear_widgets()
     ttk.Label(frm, text="Delete Character").grid(column=1, row=0)
 
@@ -139,6 +191,10 @@ def window_delete_character():
 
 
 def window_show_party():
+    """
+    function that creates a new screen to show a group
+    of 4 characters existing in the database
+    """
     clear_widgets()
     ttk.Label(frm, text="Party").grid(
         column=2, row=0, columnspan=4)
@@ -204,7 +260,9 @@ def window_show_party():
 
 
 def window_home():
-
+    """
+    Function that create the main screen for the app
+    """
     clear_widgets()
 
     ttk.Button(frm, text="Create Character",
