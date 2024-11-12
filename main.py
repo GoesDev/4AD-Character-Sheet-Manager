@@ -1,7 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
-from Character import Character
-from db_functions import delete_character, select_character
+from db_functions import delete_character, select_character, save_character
 
 all_class = ['Barbarian', 'Cleric', 'Dwarf',
              'Elf', 'Halfling', 'Thief',
@@ -135,7 +134,7 @@ def window_new_character():
     new_character['gold'].grid(column=3, row=8, sticky='W')
 
     ttk.Button(frm, text="Save Character",
-               command=save_character).grid(column=1, row=9, pady=10)
+               command=prep_save_character).grid(column=1, row=9, pady=10)
     ttk.Button(frm, text="Home",
                command=window_home).grid(column=3, row=99)
 
@@ -235,24 +234,23 @@ def window_home():
                command=root.destroy).grid(column=0, row=99)
 
 
-def save_character():
-    definitive_character = {}
+def prep_save_character():
+    new_character_infos = []
 
-    definitive_character['name'] = new_character["name"].get()
-    definitive_character['class'] = new_character["class"].get()
-    definitive_character['level'] = new_character["level"].get()
-    definitive_character['life'] = new_character["life"].get()
-    definitive_character['attack'] = new_character["attack"].get()
-    definitive_character['defense'] = new_character["defense"].get()
-    definitive_character['gold'] = new_character["gold"].get()
-    definitive_character['special_abilities'] = new_character[
-        "special_abilities"].get("1.0", tk.END).strip()
-    definitive_character['clues'] = new_character["clues"].get()
-    definitive_character['equipament'] = new_character[
-        "equipament"].get("1.0", tk.END).strip()
+    new_character_infos.append(new_character["name"].get())
+    new_character_infos.append(new_character["class"].get())
+    new_character_infos.append(new_character["level"].get())
+    new_character_infos.append(new_character["life"].get())
+    new_character_infos.append(new_character["attack"].get())
+    new_character_infos.append(new_character["defense"].get())
+    new_character_infos.append(new_character["gold"].get())
+    new_character_infos.append(new_character[
+        "special_abilities"].get("1.0", tk.END).strip())
+    new_character_infos.append(new_character["clues"].get())
+    new_character_infos.append(new_character[
+        "equipament"].get("1.0", tk.END).strip())
 
-    my_character = Character(definitive_character)
-    my_character.save_new_character()
+    save_character(new_character_infos)
 
 
 def delete_old_character():
