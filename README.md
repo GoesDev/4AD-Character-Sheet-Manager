@@ -12,6 +12,11 @@ It was harder than I thought it would be, but I'm happy to have finished it and 
 
 There are things to improve, like bug fixes and errors, there are a lot of them. But I'll test other things and study more before moving on to the next project.
 
+<<<<<<< HEAD
 ![alt text](img/image-1.png)
 
 ![alt text](img/image.png)
+=======
+![alt text]([img\image-1.png](https://github.com/GoesDev/4AD-Character-Sheet-Manager/blob/main/img/image-1.png))
+![alt text](img\image.png)
+>>>>>>> 7eafd2217e7b1fe910d8fc09b502a038d9f5d5f2
