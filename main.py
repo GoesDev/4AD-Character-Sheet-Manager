@@ -200,8 +200,8 @@ def window_show_party():
         column=2, row=0, columnspan=4)
     make_labels(0, 0)
     make_labels(4, 0)
-    make_labels(0, 10)
-    make_labels(4, 10)
+    make_labels(0, 9)
+    make_labels(4, 9)
 
     global char_one, char_one_dict, char_one_dict_string_var
     global char_two, char_two_dict, char_two_dict_string_var
@@ -222,8 +222,6 @@ def window_show_party():
     ttk.Label(frm, text="#3 Character").grid(column=0, row=99)
     ttk.Label(frm, text="#4 Character").grid(column=2, row=99)
 
-    ttk.Label(frm).grid(column=0, row=9)
-    ttk.Label(frm).grid(column=0, row=10)
     ttk.Label(frm).grid(column=0, row=20)
     ttk.Label(frm).grid(column=0, row=21)
     char_one = ttk.Entry(frm)
@@ -276,6 +274,11 @@ def window_home():
 
 
 def prep_save_character():
+    """
+    Function that creates a list with the information
+    provided by the user and sends it to the database.
+    """
+
     new_character_infos = []
 
     new_character_infos.append(new_character["name"].get().title())
@@ -295,11 +298,20 @@ def prep_save_character():
 
 
 def delete_old_character():
+    """
+    Function that deletes a character from the
+    database with a name provided by the user
+    """
+
     character = old_character.get().title()
     delete_character(character)
 
 
 def update_character_entry(character_dict, character_number_dict, character):
+    """
+    Function that update the entries with
+    character information from the database
+    """
 
     character_dict['name'].set(character[0])
     character_dict['class'].set(character[1])
@@ -316,6 +328,9 @@ def update_character_entry(character_dict, character_number_dict, character):
 
 
 def update_party_entry():
+    """
+    function that updates the entries of all four characters.
+    """
 
     character_one = select_character(char_one.get().title())
     update_character_entry(char_one_dict_string_var,
